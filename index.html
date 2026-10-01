@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIGHTFALL - Original HD-2D Monster RPG</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <canvas id="game-canvas"></canvas>
+
+      <div id="ui-layer">
+        <div id="top-hud">
+          <div id="calendar-badge" class="hud-box">
+            <span id="calendar-date">OCTOBER 21</span>
+            <span id="calendar-time">18:00 (DUSK)</span>
+          </div>
+          <div id="location-badge" class="hud-box">
+            <span id="location-name">NEW MOON VILLAGE</span>
+          </div>
+        </div>
+
+        <div id="dialogue-box" class="hidden">
+          <div id="speaker-name"></div>
+          <div id="dialogue-text"></div>
+          <div id="dialogue-prompt">Press [E] or Space to continue...</div>
+        </div>
+
+        <div id="party-panel" class="modal hidden">
+          <div class="modal-header">
+            <h2>NOCTI PARTY</h2>
+            <button id="close-party-btn" class="close-btn">X</button>
+          </div>
+          <div id="party-list" class="party-grid"></div>
+        </div>
+
+        <div id="bottom-hud" class="hud-box">
+          <span class="control-tip"><b>WASD / Arrows</b>: Move</span> |
+          <span class="control-tip"><b>E / Space</b>: Interact</span> |
+          <span class="control-tip"><b>P</b>: Party</span> |
+          <span class="control-tip"><b>F5</b>: Save</span> |
+          <span class="control-tip"><b>F9</b>: Load</span> |
+          <span class="control-tip"><b>T</b>: Advance Time</span>
+        </div>
+
+        <div id="notification-toast" class="toast hidden"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
