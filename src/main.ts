@@ -27,6 +27,7 @@ class NightfallGame {
   private playerParty: NoctiInstance[] = [];
   private gameFlags: Record<string, boolean> = {};
   private partyModalOpen: boolean = false;
+  private controlsModalOpen: boolean = false;
 
   constructor() {
     const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
@@ -65,6 +66,7 @@ class NightfallGame {
 
     // UI Bindings
     document.getElementById('close-party-btn')?.addEventListener('click', () => this.togglePartyModal(false));
+    document.getElementById('close-controls-btn')?.addEventListener('click', () => this.toggleControlsModal(false));
 
     // Check for existing save
     if (SaveSystem.hasSave()) {
@@ -99,18 +101,34 @@ class NightfallGame {
     if (this.input.isPartyPressed()) {
       this.togglePartyModal(!this.partyModalOpen);
     }
+    if (this.input.isHelpPressed()) {
+      this.toggleControlsModal(!this.controlsModalOpen);
+    }
+
+    // ESC Key handling to close open overlays
+    if (this.input.isEscapePressed()) {
+      if (this.dialogueSystem.isDialogueOpen()) {
+        this.dialogueSystem.close();
+      } else if (this.partyModalOpen) {
+        this.togglePartyModal(false);
+      } else if (this.controlsModalOpen) {
+        this.toggleControlsModal(false);
+      }
+    }
 
     // Dialogue interaction
     if (this.input.isInteractPressed()) {
-      if (this.dialogueSystem.isDialogueOpen()) {
+      if (this.controlsModalOpen) {
+        this.toggleControlsModal(false);
+      } else if (this.dialogueSystem.isDialogueOpen()) {
         this.dialogueSystem.advance();
       } else {
         this.checkNpcInteraction();
       }
     }
 
-    // Player Movement (disabled during dialogue or party menu)
-    if (!this.dialogueSystem.isDialogueOpen() && !this.partyModalOpen) {
+    // Player Movement (disabled during dialogue or open modals)
+    if (!this.dialogueSystem.isDialogueOpen() && !this.partyModalOpen && !this.controlsModalOpen) {
       this.player.update(deltaTime, this.input, this.camera.camera, (pos, radius) =>
         this.mapManager.checkCollision(pos, radius)
       );
@@ -119,8 +137,8 @@ class NightfallGame {
     // Camera follow player
     this.camera.follow(this.player.position);
 
-    // Update map NPCs (billboard rotation)
-    this.mapManager.update(this.camera.camera);
+    // Update map NPCs (billboard rotation + interaction range check)
+    this.mapManager.update(this.camera.camera, this.player.position);
 
     // Update dynamic environment lighting based on time
     const lightVals = this.timeManager.getLightingValues();
@@ -165,8 +183,22 @@ class NightfallGame {
     if (!modal) return;
 
     if (show) {
+      this.toggleControlsModal(false);
       modal.classList.remove('hidden');
       this.renderPartyList();
+    } else {
+      modal.classList.add('hidden');
+    }
+  }
+
+  private toggleControlsModal(show: boolean) {
+    this.controlsModalOpen = show;
+    const modal = document.getElementById('controls-panel');
+    if (!modal) return;
+
+    if (show) {
+      this.togglePartyModal(false);
+      modal.classList.remove('hidden');
     } else {
       modal.classList.add('hidden');
     }

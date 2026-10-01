@@ -51,7 +51,7 @@ export interface NoctiInstance {
 // Map Data Interfaces
 export interface MapObjectDef {
   id: string;
-  type: 'house' | 'pumpkin' | 'tree' | 'lantern' | 'fence' | 'gate' | 'statue' | 'chest' | 'custom';
+  type: 'house' | 'pumpkin' | 'tree' | 'lantern' | 'fence' | 'gate' | 'statue' | 'chest' | 'path' | 'custom';
   x: number;
   z: number;
   rotationY?: number;
