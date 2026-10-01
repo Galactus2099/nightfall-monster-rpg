@@ -4,8 +4,9 @@
 **Milestone 1: Real Playable HD-2D Foundation & New Moon Village Prototype** (Completed & Verified)
 
 ## Deployed URL & GitHub Pages
-- **Live Playable Game**: [https://Galactus2099.github.io/nightfall-monster-rpg/](https://Galactus2099.github.io/nightfall-monster-rpg/)
-- **Build & Deployment Workflow**: Automated via GitHub Actions (`.github/workflows/deploy.yml`) using Vite base path `/nightfall-monster-rpg/`.
+- **Target URL**: [https://Galactus2099.github.io/nightfall-monster-rpg/](https://Galactus2099.github.io/nightfall-monster-rpg/)
+- **Build & Deployment Workflow**: Configured in `.github/workflows/deploy.yml` with triggers on `push` (to `main` and `jules-*` branches), `pull_request` (to `main`), and `workflow_dispatch`.
+- **Pages Note**: GitHub Pages must be enabled in repo settings (Settings -> Pages -> Source: GitHub Actions) for automatic deployment upon PR merge or workflow run.
 
 ## Playable Features & Completed Systems
 - **Three.js HD-2D Engine Base**: Integrated WebGLRenderer with soft PCF shadow mapping, exponential atmospheric foggy glow, and dynamic day/night ambient & directional lighting transitions.
@@ -53,7 +54,7 @@
 ## Architecture Decisions
 - Game data (Nocti species, map definitions, dialogue trees) is decoupled from engine logic in `src/data/`.
 - Visual entities utilize `VisualSprite` canvas billboards to enable straightforward future swapping to full custom pixel-art sprite sheets or 3D GLTF models without modifying entity collision or gameplay logic.
-- GitHub Pages deployment uses Vite base path `/nightfall-monster-rpg/` with automated build and deploy via `.github/workflows/deploy.yml`.
+- GitHub Pages deployment uses relative Vite base path (`./`) with automated build and deploy via `.github/workflows/deploy.yml`.
 
 ## Known Bugs / Limitations
 - None. TypeScript compilation (`npx tsc --noEmit`), Vite production build, and Playwright end-to-end browser tests pass cleanly with zero console errors.
