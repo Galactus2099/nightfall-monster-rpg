@@ -65,6 +65,14 @@ export class Input {
     return this.wasKeyJustPressed('KeyT');
   }
 
+  public isEscapePressed(): boolean {
+    return this.wasKeyJustPressed('Escape');
+  }
+
+  public isHelpPressed(): boolean {
+    return this.wasKeyJustPressed('KeyH');
+  }
+
   public update() {
     // Clear any single-frame key presses that weren't consumed
     this.keyJustPressed = {};

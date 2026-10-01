@@ -111,64 +111,148 @@ export class MapManager {
         group.add(winMesh);
         break;
       }
+      case 'path': {
+        // Cobblestone walkway plane
+        width = def.scale ? def.scale[0] : 3;
+        depth = def.scale ? def.scale[2] : 3;
+        const pathGeo = new THREE.PlaneGeometry(width, depth);
+        const pathMat = new THREE.MeshStandardMaterial({
+          color: colorHex || 0x2e2538,
+          roughness: 0.95
+        });
+        const pathMesh = new THREE.Mesh(pathGeo, pathMat);
+        pathMesh.rotation.x = -Math.PI / 2;
+        pathMesh.position.y = 0.01;
+        pathMesh.receiveShadow = true;
+        group.add(pathMesh);
+        break;
+      }
+      case 'fence': {
+        width = 2.0;
+        depth = 0.4;
+        const wallGeo = new THREE.BoxGeometry(2.0, 1.2, 0.3);
+        const wallMat = new THREE.MeshStandardMaterial({ color: colorHex || 0x2c2636, roughness: 0.8 });
+        const wallMesh = new THREE.Mesh(wallGeo, wallMat);
+        wallMesh.position.y = 0.6;
+        wallMesh.castShadow = true;
+        wallMesh.receiveShadow = true;
+        group.add(wallMesh);
+        break;
+      }
       case 'pumpkin': {
         width = 0.8;
         depth = 0.8;
-        const pGeo = new THREE.SphereGeometry(0.5, 8, 8);
+        const pGeo = new THREE.SphereGeometry(0.5, 10, 10);
         pGeo.scale(1, 0.8, 1);
-        const pMat = new THREE.MeshStandardMaterial({ color: colorHex || 0xff6600, roughness: 0.5 });
+        const pMat = new THREE.MeshStandardMaterial({ color: colorHex || 0xff5500, roughness: 0.4 });
         const pMesh = new THREE.Mesh(pGeo, pMat);
         pMesh.position.y = 0.4;
         pMesh.castShadow = true;
         group.add(pMesh);
 
+        // Pumpkin stem
+        const stemGeo = new THREE.CylinderGeometry(0.05, 0.08, 0.25, 5);
+        const stemMat = new THREE.MeshStandardMaterial({ color: 0x1f3a15 });
+        const stemMesh = new THREE.Mesh(stemGeo, stemMat);
+        stemMesh.position.set(0, 0.85, 0);
+        group.add(stemMesh);
+
         // Glowing Jack-o'-Lantern face light
-        const pLight = new THREE.PointLight(0xff7700, 1.5, 6);
-        pLight.position.set(0, 0.5, 0.2);
+        const pLight = new THREE.PointLight(0xff7700, 2.0, 7);
+        pLight.position.set(0, 0.5, 0.3);
         group.add(pLight);
         break;
       }
       case 'tree': {
-        width = 1.2;
-        depth = 1.2;
+        width = 1.4;
+        depth = 1.4;
         // Trunk
-        const trunkGeo = new THREE.CylinderGeometry(0.3, 0.5, 3.5, 6);
-        const trunkMat = new THREE.MeshStandardMaterial({ color: 0x2b1d14, roughness: 0.9 });
+        const trunkGeo = new THREE.CylinderGeometry(0.35, 0.6, 3.8, 7);
+        const trunkMat = new THREE.MeshStandardMaterial({ color: 0x241810, roughness: 0.9 });
         const trunkMesh = new THREE.Mesh(trunkGeo, trunkMat);
-        trunkMesh.position.y = 1.75;
+        trunkMesh.position.y = 1.9;
         trunkMesh.castShadow = true;
         group.add(trunkMesh);
 
-        // Gnarled dark foliage cone
-        const folGeo = new THREE.ConeGeometry(2.0, 4.0, 6);
-        const folMat = new THREE.MeshStandardMaterial({ color: colorHex || 0x122416, roughness: 0.8 });
-        const folMesh = new THREE.Mesh(folGeo, folMat);
-        folMesh.position.y = 4.5;
-        folMesh.castShadow = true;
-        group.add(folMesh);
+        // Layered dark spooky foliage
+        const folMat = new THREE.MeshStandardMaterial({ color: colorHex || 0x102115, roughness: 0.8 });
+        const fol1 = new THREE.Mesh(new THREE.ConeGeometry(2.4, 3.5, 6), folMat);
+        fol1.position.y = 4.2;
+        fol1.castShadow = true;
+        group.add(fol1);
+
+        const fol2 = new THREE.Mesh(new THREE.ConeGeometry(1.8, 3.0, 6), folMat);
+        fol2.position.y = 5.6;
+        fol2.castShadow = true;
+        group.add(fol2);
         break;
       }
       case 'lantern': {
         width = 0.5;
         depth = 0.5;
-        // Pole
+        // Stone base
+        const bGeo = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+        const bMat = new THREE.MeshStandardMaterial({ color: 0x221a2e });
+        const bMesh = new THREE.Mesh(bGeo, bMat);
+        bMesh.position.y = 0.2;
+        bMesh.castShadow = true;
+        group.add(bMesh);
+
+        // Iron Pole
         const poleGeo = new THREE.CylinderGeometry(0.08, 0.1, 2.8, 6);
         const poleMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.8 });
         const poleMesh = new THREE.Mesh(poleGeo, poleMat);
-        poleMesh.position.y = 1.4;
+        poleMesh.position.y = 1.6;
         poleMesh.castShadow = true;
         group.add(poleMesh);
 
         // Lantern head
-        const lLight = new THREE.PointLight(0xffa524, 2.2, 10);
-        lLight.position.set(0, 2.6, 0);
+        const lLight = new THREE.PointLight(0xffa022, 2.8, 12);
+        lLight.position.set(0, 2.8, 0);
         group.add(lLight);
 
-        const bulbGeo = new THREE.SphereGeometry(0.2, 8, 8);
-        const bulbMat = new THREE.MeshBasicMaterial({ color: 0xffbb44 });
+        const bulbGeo = new THREE.SphereGeometry(0.22, 8, 8);
+        const bulbMat = new THREE.MeshBasicMaterial({ color: 0xffb830 });
         const bulbMesh = new THREE.Mesh(bulbGeo, bulbMat);
-        bulbMesh.position.set(0, 2.6, 0);
+        bulbMesh.position.set(0, 2.8, 0);
         group.add(bulbMesh);
+        break;
+      }
+      case 'statue': {
+        // Ancient Runestone Monolith / Monolith Landmark
+        width = 2.0;
+        depth = 2.0;
+        const monoGeo = new THREE.BoxGeometry(1.6, 4.2, 1.2);
+        const monoMat = new THREE.MeshStandardMaterial({ color: 0x2a1e38, roughness: 0.7, metalness: 0.2 });
+        const monoMesh = new THREE.Mesh(monoGeo, monoMat);
+        monoMesh.position.y = 2.1;
+        monoMesh.castShadow = true;
+        monoMesh.receiveShadow = true;
+        group.add(monoMesh);
+
+        // Eerie glowing rune glyph on face
+        const runeGeo = new THREE.PlaneGeometry(1.0, 2.0);
+        const runeMat = new THREE.MeshBasicMaterial({ color: 0x9b51e0 });
+        const runeMesh = new THREE.Mesh(runeGeo, runeMat);
+        runeMesh.position.set(0, 2.2, 0.61);
+        group.add(runeMesh);
+
+        // Eerie purple ambient light
+        const monoLight = new THREE.PointLight(0x8a4fff, 2.5, 10);
+        monoLight.position.set(0, 2.5, 0.8);
+        group.add(monoLight);
+        break;
+      }
+      case 'gate': {
+        // Cemetery Gravestone / Monument
+        width = 1.0;
+        depth = 0.5;
+        const stoneGeo = new THREE.BoxGeometry(1.0, 1.8, 0.4);
+        const stoneMat = new THREE.MeshStandardMaterial({ color: 0x3d354a, roughness: 0.8 });
+        const stoneMesh = new THREE.Mesh(stoneGeo, stoneMat);
+        stoneMesh.position.y = 0.9;
+        stoneMesh.castShadow = true;
+        group.add(stoneMesh);
         break;
       }
       default: {
@@ -222,9 +306,9 @@ export class MapManager {
     return false;
   }
 
-  public update(camera: THREE.Camera) {
+  public update(camera: THREE.Camera, playerPosition?: THREE.Vector3) {
     for (const npc of this.npcs) {
-      npc.update(camera);
+      npc.update(camera, playerPosition);
     }
   }
 }

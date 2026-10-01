@@ -35,13 +35,31 @@
           <div id="party-list" class="party-grid"></div>
         </div>
 
+        <div id="controls-panel" class="modal hidden">
+          <div class="modal-header">
+            <h2>GAME CONTROLS & GUIDE</h2>
+            <button id="close-controls-btn" class="close-btn">X</button>
+          </div>
+          <div class="controls-content">
+            <div class="control-row"><span class="key-badge">WASD / Arrow Keys</span><span class="key-desc">Move character in 8 directions</span></div>
+            <div class="control-row"><span class="key-badge">E / Space</span><span class="key-desc">Interact with NPCs / Advance dialogue</span></div>
+            <div class="control-row"><span class="key-badge">P</span><span class="key-desc">Toggle Nocti Party panel</span></div>
+            <div class="control-row"><span class="key-badge">F5</span><span class="key-desc">Quick Save game state</span></div>
+            <div class="control-row"><span class="key-badge">F9</span><span class="key-desc">Quick Load game state</span></div>
+            <div class="control-row"><span class="key-badge">ESC</span><span class="key-desc">Close open dialogue or menu window</span></div>
+            <div class="control-row"><span class="key-badge">T</span><span class="key-desc">Advance time (+3 Hours for Day/Night cycle)</span></div>
+            <div class="control-row"><span class="key-badge">H</span><span class="key-desc">Toggle this Controls Help window</span></div>
+          </div>
+        </div>
+
         <div id="bottom-hud" class="hud-box">
           <span class="control-tip"><b>WASD / Arrows</b>: Move</span> |
           <span class="control-tip"><b>E / Space</b>: Interact</span> |
           <span class="control-tip"><b>P</b>: Party</span> |
           <span class="control-tip"><b>F5</b>: Save</span> |
           <span class="control-tip"><b>F9</b>: Load</span> |
-          <span class="control-tip"><b>T</b>: Advance Time</span>
+          <span class="control-tip"><b>ESC</b>: Close</span> |
+          <span class="control-tip"><b>H</b>: Controls Guide</span>
         </div>
 
         <div id="notification-toast" class="toast hidden"></div>
